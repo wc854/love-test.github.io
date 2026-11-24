@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#FBF7F4" />
+  <title>恋爱人格图鉴 · 找到你的心动原型</title>
+  <meta name="description" content="12道题，测出属于你的恋爱人格：焰火直球派、玫瑰暗探、慢热观测者……生成可分享的专属人格卡。" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="data.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <main id="app">
+
+    <!-- INTRO -->
+    <section class="screen active" id="intro">
+      <header class="topbar">
+        <a class="brand" href="#intro" aria-label="恋爱人格图鉴首页">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none"><path d="M16 27S4 20.4 4 12.6C4 8.5 7.2 5.4 11.1 5.4c2.1 0 3.8 1 4.9 2.6 1.1-1.6 2.8-2.6 4.9-2.6C24.8 5.4 28 8.5 28 12.6 28 20.4 16 27 16 27Z" fill="currentColor"/></svg>
+          </span>
+          <span>心动实验室 <i>HEART LAB</i></span>
+        </a>
+        <span class="topbar-note">VOL.01 · 恋爱人格图鉴</span>
+      </header>
+
+      <div class="intro-layout">
+        <div class="intro-copy">
+          <div class="eyebrow"><span class="eyebrow-line"></span> RELATIONSHIP PERSONALITY TEST</div>
+          <h1>你的恋爱人格<br />藏在<span class="hl">每一次心动</span>里</h1>
+          <p class="intro-sub">12 个问题，不讲道理，只问本能。<br />关于暧昧、吃醋、表达、依恋和吵架——<br />测完你会得到一张很「像你」的人格卡。</p>
+          <button class="btn btn-primary" id="startBtn">
+            <span>开始测试</span>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="intro-meta">
+            <span><b>12</b> 道直觉题</span><span class="dot"></span>
+            <span><b>4</b> 个心动维度</span><span class="dot"></span>
+            <span><b>3</b> 分钟出结果</span>
+          </div>
+          <p class="intro-foot">无需注册 · 免费 · 结果当场生成</p>
+        </div>
+
+        <div class="intro-art" aria-hidden="true">
+          <div class="halo halo-a"></div>
+          <div class="halo halo-b"></div>
+          <div class="orbit orbit-1"></div>
+          <div class="orbit orbit-2"></div>
+          <div class="preview-card card-back">
+            <span class="preview-code">AR-07</span>
+            <strong>心跳雷达</strong>
+            <span class="preview-en">THE HEART RADAR</span>
+            <div class="preview-tags"><i>高敏感</i><i>共情力</i></div>
+          </div>
+          <div class="preview-card card-front">
+            <span class="preview-code">AR-01</span>
+            <strong>焰火直球派</strong>
+            <span class="preview-en">THE FLAME</span>
+            <div class="preview-tags"><i>高主动</i><i>不内耗</i></div>
+          </div>
+          <div class="floating-chip chip-1">喜欢就直说 ↗</div>
+          <div class="floating-chip chip-2">暧昧信号已接收</div>
+          <div class="floating-heart heart-1">♥</div>
+          <div class="floating-heart heart-2">♥</div>
+        </div>
+      </div>
+
+      <div class="intro-bottom">
+        <div class="type-strip">
+          <span>焰火直球派</span><span>玫瑰暗探</span><span>慢热观测者</span><span>月亮邮差</span><span>独立轨道</span><span>拉扯艺术家</span><span>心跳雷达</span><span>温柔谈判官</span><span>深海静音者</span><span>甜梗制造机</span><span>边界诗人</span><span>炽热守望者</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUIZ -->
+    <section class="screen" id="quiz">
+      <header class="topbar quiz-topbar">
+        <a class="brand" href="#intro" id="quizBrand">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none"><path d="M16 27S4 20.4 4 12.6C4 8.5 7.2 5.4 11.1 5.4c2.1 0 3.8 1 4.9 2.6 1.1-1.6 2.8-2.6 4.9-2.6C24.8 5.4 28 8.5 28 12.6 28 20.4 16 27 16 27Z" fill="currentColor"/></svg>
+          </span>
+          <span>心动实验室 <i>HEART LAB</i></span>
+        </a>
+        <button class="text-btn" id="quitBtn">退出测试</button>
+      </header>
+
+      <div class="quiz-wrap">
+        <div class="progress-head">
+          <span id="counter">Q 01 / 12</span>
+          <span id="stageName">心动初见</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+        <div class="question-card" id="questionCard">
+          <div class="question-index" id="questionIndex">01</div>
+          <h2 id="questionTitle">题目加载中</h2>
+          <p class="question-hint">选择你最本能、最像自己的反应</p>
+          <div class="options" id="options"></div>
+        </div>
+
+        <div class="quiz-foot">
+          <button class="text-btn" id="backBtn" disabled>← 上一题</button>
+          <span class="key-hint">键盘 1–4 也可以作答</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULT -->
+    <section class="screen" id="result">
+      <header class="topbar">
+        <a class="brand" href="#intro">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none"><path d="M16 27S4 20.4 4 12.6C4 8.5 7.2 5.4 11.1 5.4c2.1 0 3.8 1 4.9 2.6 1.1-1.6 2.8-2.6 4.9-2.6C24.8 5.4 28 8.5 28 12.6 28 20.4 16 27 16 27Z" fill="currentColor"/></svg>
+          </span>
+          <span>心动实验室 <i>HEART LAB</i></span>
+        </a>
+        <span class="topbar-note">你的恋爱人格报告</span>
+      </header>
+
+      <div class="result-head">
+        <div class="result-intro">
+          <div class="eyebrow"><span class="eyebrow-line"></span> YOUR LOVE ARCHETYPE</div>
+          <h2>找到你的恋爱原型</h2>
+          <p>不是标准答案，只是一面有点漂亮的镜子。</p>
+        </div>
+      </div>
+
+      <div class="result-layout">
+        <div class="result-left">
+          <div class="persona-card" id="shareCard">
+            <div class="persona-top">
+              <span class="persona-code" id="personaCode">AR-01</span>
+              <span class="persona-password" id="personaPassword">人格密码 · 燃白贴锋</span>
+            </div>
+            <div class="persona-title-wrap">
+              <div class="persona-ornament" id="personaOrnament" aria-hidden="true">✦</div>
+              <h3 id="personaName">焰火直球派</h3>
+              <p class="persona-en" id="personaEn">THE FLAME</p>
+            </div>
+            <p class="persona-tagline" id="personaTagline"></p>
+            <div class="persona-tags" id="personaTags"></div>
+            <div class="persona-divider"><span>心动四维</span></div>
+            <div class="dimension-list" id="dimensionList"></div>
+            <div class="persona-quote" id="personaQuote"></div>
+            <div class="persona-bottom">
+              <span id="personaRarity">仅 8.6% 的人和你同类</span>
+              <span class="persona-stamp">HEART LAB · VOL.01</span>
+            </div>
+          </div>
+
+          <div class="share-actions">
+            <button class="btn btn-primary" id="copyBtn">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="M16 8V6.5A2.5 2.5 0 0 0 13.5 4h-7A2.5 2.5 0 0 0 4 6.5v7A2.5 2.5 0 0 0 6.5 16H8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+              <span>复制分享文案</span>
+            </button>
+            <button class="btn btn-ghost" id="saveBtn">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4v11m0 0 4-4m-4 4-4-4M5 19h14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>保存人格海报</span>
+            </button>
+          </div>
+          <p class="share-tip" id="actionTip">适合发小红书、朋友圈、微博；保存海报更适合抖音图文。</p>
+        </div>
+
+        <div class="result-right">
+          <div class="report-block accent-block">
+            <div class="block-kicker">01 · 心动开关</div>
+            <h4>什么会让你突然上头</h4>
+            <p id="signalText"></p>
+          </div>
+          <div class="report-block">
+            <div class="block-kicker">02 · 恋爱高光</div>
+            <h4>你在关系里最迷人的样子</h4>
+            <p id="highlightText"></p>
+          </div>
+          <div class="report-block">
+            <div class="block-kicker">03 · 相处雷区</div>
+            <h4>容易被误解的地方</h4>
+            <p id="trapText"></p>
+          </div>
+          <div class="report-block">
+            <div class="block-kicker">04 · 恋爱咒语</div>
+            <h4>给你的下一句提醒</h4>
+            <p id="prescriptionText"></p>
+          </div>
+          <div class="match-block">
+            <div class="block-kicker">05 · 同频信号</div>
+            <h4>最容易和你产生化学反应的是</h4>
+            <div class="match-name" id="matchName"></div>
+            <p>互补不是要改变彼此，而是有人刚好接住你的节奏。</p>
+          </div>
+          <button class="btn btn-outline" id="retestBtn">重新测一次 ↻</button>
+        </div>
+      </div>
+
+      <section class="gallery">
+        <div class="gallery-head">
+          <div>
+            <div class="eyebrow"><span class="eyebrow-line"></span> THE GALLERY</div>
+            <h3>十二种恋爱原型</h3>
+          </div>
+          <p>每个人格都有自己的心动逻辑。<br />你抽到哪一个？</p>
+        </div>
+        <div class="gallery-grid" id="galleryGrid"></div>
+      </section>
+
+      <footer class="footer">心动实验室 · HEART LAB — 恋爱人格图鉴 VOL.01 <span>测着玩，别太当真；认真爱，是真的。</span></footer>
+    </section>
+
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
