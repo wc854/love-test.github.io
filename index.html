@@ -1,1023 +1,215 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#F6F2E9">
-<title>城市 CP 图鉴 · 12 道直觉题测出你的城市人格</title>
-<meta name="description" content="12 道场景直觉题，3 分钟测出你的城市 CP 属性。无需注册，不收集信息。">
-<meta property="og:title" content="城市 CP 图鉴 · 测出你的城市人格">
-<meta property="og:description" content="12 道直觉题，3 分钟测出你的城市 CP 属性。不用动脑子，选第一反应就行。">
-<style>
-:root{
-  --paper:#F6F2E9;
-  --paper-2:#EFE8DA;
-  --ink:#232019;
-  --ink-2:#5F594E;
-  --ink-3:#968D7E;
-  --line:rgba(35,32,25,.13);
-  --accent:#C25C3A;
-  --accent-soft:rgba(194,92,58,.09);
-  --sage:#8C9B84;
-  --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","Source Han Serif CN",Georgia,serif;
-  --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;padding:0}
-body{
-  background:var(--paper);
-  color:var(--ink);
-  font-family:var(--sans);
-  font-size:16px;
-  line-height:1.6;
-  -webkit-font-smoothing:antialiased;
-  min-height:100dvh;
-  overflow-x:hidden;
-}
-body::before{
-  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
-  background:
-    radial-gradient(circle at 18% -4%, rgba(194,92,58,.055), transparent 42%),
-    radial-gradient(circle at 92% 104%, rgba(140,155,132,.10), transparent 46%);
-}
-body.no-scroll{overflow:hidden}
-.app{position:relative;z-index:1;padding-bottom:env(safe-area-inset-bottom)}
-.shell{width:100%;max-width:480px;margin:0 auto;padding:0 24px}
-
-/* ---------- screens ---------- */
-.screen{display:none}
-.screen.is-active,.screen.is-leaving{display:block}
-.screen.is-active{animation:screenIn .5s cubic-bezier(.22,.61,.36,1) both}
-.screen.is-leaving{animation:screenOut .28s ease both;pointer-events:none}
-@keyframes screenIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-@keyframes screenOut{from{opacity:1}to{opacity:0}}
-
-/* ---------- hero ---------- */
-.hero{
-  padding-top:26px;padding-bottom:34px;
-  display:flex;flex-direction:column;justify-content:center;
-  min-height:calc(100dvh - 8px);
-}
-.meta-row{display:flex;justify-content:space-between;align-items:center;
-  font-size:10px;letter-spacing:.2em;color:var(--ink-3);text-transform:uppercase}
-.rule{height:1px;background:var(--line);margin-top:12px}
-.hero-title{
-  font-family:var(--serif);font-weight:600;
-  font-size:clamp(29px,8.4vw,42px);line-height:1.3;letter-spacing:-.01em;
-  margin:34px 0 0;
-}
-.hero-title em{font-style:normal;color:var(--accent);position:relative;white-space:nowrap}
-.hero-title em::after{
-  content:"";position:absolute;left:0;right:0;bottom:-2px;height:1px;
-  background:linear-gradient(90deg,rgba(194,92,58,.55),rgba(194,92,58,0));
-}
-.hero-sub{margin:16px 0 0;font-size:15px;color:var(--ink-2);letter-spacing:.01em}
-.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
-.tags span{
-  font-size:12px;padding:6px 13px;border-radius:999px;
-  border:1px solid var(--line);color:var(--ink-2);
-  background:rgba(255,255,255,.42);letter-spacing:.02em;
-}
-.hero-note{margin:13px 0 0;font-size:11.5px;color:var(--ink-3);letter-spacing:.05em}
-.sky{margin-top:26px;color:var(--ink-3);opacity:.42}
-.sky svg{display:block;width:100%;height:auto}
-
-/* ---------- buttons ---------- */
-.btn{
-  display:flex;align-items:center;justify-content:center;
-  width:100%;min-height:56px;border-radius:999px;border:none;
-  font-family:var(--sans);font-size:16px;font-weight:600;letter-spacing:.05em;
-  cursor:pointer;transition:transform .18s ease,box-shadow .25s ease,background .25s ease,color .25s ease;
-}
-.btn:active{transform:scale(.982)}
-.btn-primary{background:var(--ink);color:#FBF8F2;box-shadow:0 12px 26px rgba(35,32,25,.16)}
-.btn-ghost{background:transparent;color:var(--ink);border:1px solid rgba(35,32,25,.22)}
-.btn-ghost:active{background:rgba(35,32,25,.04)}
-.hero .btn-primary{margin-top:30px}
-
-/* ---------- quiz ---------- */
-.quiz{padding-top:26px;padding-bottom:44px}
-.qhead{display:flex;align-items:baseline;justify-content:space-between;
-  font-size:11px;letter-spacing:.18em;color:var(--ink-3)}
-.qhead b{font-family:var(--serif);font-size:13px;font-weight:600;color:var(--accent);letter-spacing:.06em}
-.progress{height:3px;background:rgba(35,32,25,.09);border-radius:99px;margin-top:12px;overflow:hidden}
-.progress i{display:block;height:100%;width:0;background:var(--accent);border-radius:99px;
-  transition:width .55s cubic-bezier(.22,.61,.36,1)}
-.q-card{margin-top:40px;opacity:1}
-.q-card.is-in{animation:qIn .42s cubic-bezier(.22,.61,.36,1) both}
-.q-card.is-out{animation:qOut .24s ease both}
-@keyframes qIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-@keyframes qOut{from{opacity:1;transform:none}to{opacity:0;transform:translateY(-8px)}}
-.q-kicker{margin:0;font-size:11px;letter-spacing:.24em;color:var(--accent)}
-.q-text{
-  font-family:var(--serif);font-weight:600;
-  font-size:clamp(21px,5.6vw,26px);line-height:1.55;
-  margin:12px 0 0;letter-spacing:.005em;
-}
-.options{display:grid;gap:10px;margin-top:28px}
-.opt{
-  display:flex;align-items:flex-start;gap:12px;text-align:left;
-  width:100%;padding:15px 16px;border-radius:14px;cursor:pointer;
-  background:rgba(255,255,255,.55);border:1px solid var(--line);
-  color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5;
-  transition:border-color .18s ease,background .18s ease,transform .18s ease;
-}
-.opt:active{transform:scale(.99)}
-.opt-key{
-  flex:0 0 auto;width:22px;height:22px;border-radius:50%;
-  display:grid;place-items:center;margin-top:1px;
-  border:1px solid rgba(35,32,25,.2);color:var(--ink-3);
-  font-size:11px;letter-spacing:0;transition:all .18s ease;
-}
-.opt-label{flex:1 1 auto}
-.opt.is-picked{border-color:var(--accent);background:var(--accent-soft)}
-.opt.is-picked .opt-key{background:var(--accent);border-color:var(--accent);color:#fff}
-.quiz-foot{margin-top:26px;font-size:11px;color:var(--ink-3);letter-spacing:.08em;text-align:center}
-
-/* ---------- result ---------- */
-.result{padding-top:26px;padding-bottom:50px}
-.sec-lbl{margin:0;font-size:10.5px;letter-spacing:.22em;color:var(--ink-3);text-transform:uppercase}
-.r-wrap{margin-top:14px;animation:floaty 7s ease-in-out 1.4s infinite}
-@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-.r-card{
-  position:relative;overflow:hidden;
-  background:linear-gradient(178deg,#FFFDF8 0%,#F4EEE1 100%);
-  border:1px solid var(--line);border-radius:22px;
-  padding:24px 20px 22px;
-  box-shadow:0 18px 40px rgba(35,32,25,.07);
-  animation:cardIn .62s cubic-bezier(.22,.61,.36,1) both;
-}
-@keyframes cardIn{from{opacity:0;transform:translateY(16px) scale(.985)}to{opacity:1;transform:none}}
-.r-stamp{
-  position:absolute;top:16px;right:14px;
-  font-size:9px;letter-spacing:.14em;color:var(--accent);
-  border:1px solid rgba(194,92,58,.45);border-radius:4px;
-  padding:4px 6px;transform:rotate(6deg);opacity:.85;
-  writing-mode:vertical-rl;
-}
-.r-lbl{font-size:9.5px;letter-spacing:.24em;color:var(--ink-3)}
-.r-code{
-  font-family:var(--serif);font-weight:700;font-size:42px;line-height:1.05;
-  letter-spacing:.02em;margin-top:6px;
-}
-.r-name{font-family:var(--serif);font-weight:600;font-size:27px;line-height:1.3;margin:10px 0 0}
-.r-trait{margin:8px 0 0;font-size:13.5px;color:var(--ink-2);line-height:1.6;padding-right:8px}
-.r-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
-.r-tags span{
-  font-size:11.5px;padding:4px 11px;border-radius:999px;
-  background:var(--accent-soft);color:var(--accent);letter-spacing:.02em;
-}
-.radar{margin:20px 0 4px}
-.radar svg{display:block;width:100%;height:auto}
-.radar .grid{fill:none;stroke:rgba(35,32,25,.13);stroke-width:1}
-.radar .axis{stroke:rgba(35,32,25,.09);stroke-width:1}
-.radar .shape{
-  fill:rgba(194,92,58,.15);stroke:var(--accent);stroke-width:2;stroke-linejoin:round;
-  transform-box:view-box;transform-origin:160px 158px;
-  animation:radarIn .85s .12s cubic-bezier(.22,.61,.36,1) both;
-}
-@keyframes radarIn{from{transform:scale(.35);opacity:0}to{transform:scale(1);opacity:1}}
-.radar .dot{fill:var(--accent)}
-.radar .dlab{font-size:11px;fill:var(--ink-2);font-family:var(--sans)}
-.dims{display:grid;gap:9px;margin-top:8px}
-.dim{display:grid;grid-template-columns:52px 1fr 28px;align-items:center;gap:10px}
-.dim-name{font-size:11.5px;color:var(--ink-2)}
-.dim-bar{height:4px;border-radius:99px;background:rgba(35,32,25,.08);overflow:hidden}
-.dim-bar i{display:block;height:100%;width:0;border-radius:99px;background:rgba(35,32,25,.28);
-  transition:width 1s cubic-bezier(.22,.61,.36,1)}
-.dim.is-top .dim-bar i{background:var(--accent)}
-.dim.is-top .dim-name{color:var(--accent)}
-.dim-val{font-size:11px;color:var(--ink-3);text-align:right;font-variant-numeric:tabular-nums}
-.r-city{margin-top:18px;padding-top:15px;border-top:1px solid var(--line);
-  display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
-.r-city .lbl{font-size:9.5px;letter-spacing:.2em;color:var(--ink-3)}
-.r-city strong{font-family:var(--serif);font-size:21px;font-weight:600;letter-spacing:.04em}
-.r-city .ct{font-size:11.5px;color:var(--sage);letter-spacing:.05em}
-
-.read{margin-top:28px}
-.read-text{margin:10px 0 0;font-size:15px;line-height:1.9;color:#3B362C;letter-spacing:.005em}
-.actions{display:grid;gap:10px;margin-top:26px}
-.retry{
-  display:block;width:100%;margin-top:20px;padding:8px 0;
-  background:none;border:none;color:var(--ink-3);font-family:var(--sans);
-  font-size:12.5px;letter-spacing:.06em;cursor:pointer;
-  text-decoration:underline;text-underline-offset:5px;text-decoration-color:rgba(35,32,25,.25);
-}
-
-/* ---------- modal ---------- */
-.modal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:20px}
-.modal.is-open{display:flex}
-.modal-mask{position:absolute;inset:0;background:rgba(26,23,19,.52);backdrop-filter:blur(3px);
-  animation:fadeIn .25s ease both}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.modal-body{
-  position:relative;width:min(88vw,370px);max-height:88dvh;overflow:auto;
-  background:var(--paper);border-radius:20px;padding:14px 14px 16px;
-  box-shadow:0 30px 70px rgba(0,0,0,.28);
-  animation:modalIn .32s cubic-bezier(.22,.61,.36,1) both;
-}
-@keyframes modalIn{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:none}}
-.modal-head{display:flex;align-items:center;justify-content:space-between;
-  font-size:11px;letter-spacing:.1em;color:var(--ink-2);padding:2px 4px 10px}
-.modal-close{background:none;border:none;font-size:20px;line-height:1;color:var(--ink-3);cursor:pointer;padding:0 2px}
-.modal-img img{display:block;width:100%;border-radius:12px;border:1px solid var(--line)}
-.modal-body .btn{margin-top:12px;min-height:48px;font-size:14px}
-.modal-tip{margin:10px 0 0;text-align:center;font-size:11px;color:var(--ink-3);line-height:1.6}
-
-.toast{
-  position:fixed;left:50%;bottom:38px;transform:translate(-50%,14px);
-  background:rgba(35,32,25,.92);color:#FBF8F2;
-  font-size:13px;padding:10px 18px;border-radius:999px;
-  opacity:0;pointer-events:none;transition:all .28s ease;z-index:80;white-space:nowrap;
-}
-.toast.is-on{opacity:1;transform:translate(-50%,0)}
-
-/* ---------- desktop ---------- */
-@media (min-width:820px){
-  .app{
-    max-width:660px;margin:52px auto;
-    padding:34px 0 46px;
-    border:1px solid var(--line);border-radius:26px;
-    background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,.2));
-    box-shadow:0 30px 90px rgba(35,32,25,.07);
-  }
-  .shell{max-width:520px;padding:0 40px}
-  .hero{min-height:0}
-  .hero-title{margin-top:40px}
-  .sky{margin-top:34px}
-}
-@media (prefers-reduced-motion:reduce){
-  *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#FBF7F4" />
+  <title>恋爱人格图鉴 · 找到你的心动原型</title>
+  <meta name="description" content="12道题，测出属于你的恋爱人格：焰火直球派、玫瑰暗探、慢热观测者……生成可分享的专属人格卡。" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="data.js" defer></script>
+  <script src="app.js" defer></script>
 </head>
 <body>
-<div class="app">
+  <div class="grain" aria-hidden="true"></div>
+  <main id="app">
 
-  <!-- ============ HERO ============ -->
-  <section class="screen is-active" id="screen-hero">
-    <div class="shell hero">
-      <div class="meta-row"><span>City CP Index</span><span>No. 001</span></div>
-      <div class="rule"></div>
-      <h1 class="hero-title">12 道直觉题<br>3 分钟测出你的<br><em>城市 CP 属性</em></h1>
-      <p class="hero-sub">不用动脑子，选第一反应就行</p>
-      <div class="tags"><span>12 道场景题</span><span>6 个维度</span><span>免费出结果</span></div>
-      <p class="hero-note">无需注册 · 不收集信息</p>
-      <div class="sky">
-        <svg viewBox="0 0 340 56" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" aria-hidden="true">
-          <path d="M2 54V34h20v20M22 54V22h16v32M38 54V40h14v14M52 54V14h22v40M74 54V30h18v24M92 54V42h12v12M104 54V26h20v28M124 54V38h16v16M140 54V18h14v36M154 54V32h22v22M176 54V44h12v10M188 54V24h18v30M206 54V36h14v18M220 54V12h20v42M240 54V34h16v20M256 54V42h12v12M268 54V28h20v26M288 54V38h14v16M302 54V22h16v32M318 54V36h20v18"/>
-          <path d="M0 54h340" opacity=".35"/>
-        </svg>
+    <!-- INTRO -->
+    <section class="screen active" id="intro">
+      <header class="topbar">
+        <a class="brand" href="#intro" aria-label="恋爱人格图鉴首页">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none"><path d="M16 27S4 20.4 4 12.6C4 8.5 7.2 5.4 11.1 5.4c2.1 0 3.8 1 4.9 2.6 1.1-1.6 2.8-2.6 4.9-2.6C24.8 5.4 28 8.5 28 12.6 28 20.4 16 27 16 27Z" fill="currentColor"/></svg>
+          </span>
+          <span>心动实验室 <i>HEART LAB</i></span>
+        </a>
+        <span class="topbar-note">VOL.01 · 恋爱人格图鉴</span>
+      </header>
+
+      <div class="intro-layout">
+        <div class="intro-copy">
+          <div class="eyebrow"><span class="eyebrow-line"></span> RELATIONSHIP PERSONALITY TEST</div>
+          <h1>你的恋爱人格<br />藏在<span class="hl">每一次心动</span>里</h1>
+          <p class="intro-sub">12 个问题，不讲道理，只问本能。<br />关于暧昧、吃醋、表达、依恋和吵架——<br />测完你会得到一张很「像你」的人格卡。</p>
+          <button class="btn btn-primary" id="startBtn">
+            <span>开始测试</span>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="intro-meta">
+            <span><b>12</b> 道直觉题</span><span class="dot"></span>
+            <span><b>4</b> 个心动维度</span><span class="dot"></span>
+            <span><b>3</b> 分钟出结果</span>
+          </div>
+          <p class="intro-foot">无需注册 · 免费 · 结果当场生成</p>
+        </div>
+
+        <div class="intro-art" aria-hidden="true">
+          <div class="halo halo-a"></div>
+          <div class="halo halo-b"></div>
+          <div class="orbit orbit-1"></div>
+          <div class="orbit orbit-2"></div>
+          <div class="preview-card card-back">
+            <span class="preview-code">AR-07</span>
+            <strong>心跳雷达</strong>
+            <span class="preview-en">THE HEART RADAR</span>
+            <div class="preview-tags"><i>高敏感</i><i>共情力</i></div>
+          </div>
+          <div class="preview-card card-front">
+            <span class="preview-code">AR-01</span>
+            <strong>焰火直球派</strong>
+            <span class="preview-en">THE FLAME</span>
+            <div class="preview-tags"><i>高主动</i><i>不内耗</i></div>
+          </div>
+          <div class="floating-chip chip-1">喜欢就直说 ↗</div>
+          <div class="floating-chip chip-2">暧昧信号已接收</div>
+          <div class="floating-heart heart-1">♥</div>
+          <div class="floating-heart heart-2">♥</div>
+        </div>
       </div>
-      <button class="btn btn-primary" id="startBtn">开始测试</button>
-    </div>
-  </section>
 
-  <!-- ============ QUIZ ============ -->
-  <section class="screen" id="screen-quiz">
-    <div class="shell quiz">
-      <div class="qhead"><b id="qIndex">01 / 12</b><span>城市 CP 图鉴</span></div>
-      <div class="progress"><i id="qBar"></i></div>
-      <div class="q-card" id="qCard"></div>
-      <p class="quiz-foot">凭直觉选，没有对错</p>
-    </div>
-  </section>
-
-  <!-- ============ RESULT ============ -->
-  <section class="screen" id="screen-result">
-    <div class="shell result">
-      <p class="sec-lbl">Your City CP</p>
-      <div class="r-wrap"><div class="r-card" id="rCard"></div></div>
-      <div class="read">
-        <p class="sec-lbl">Reading</p>
-        <p class="read-text" id="rRead"></p>
+      <div class="intro-bottom">
+        <div class="type-strip">
+          <span>焰火直球派</span><span>玫瑰暗探</span><span>慢热观测者</span><span>月亮邮差</span><span>独立轨道</span><span>拉扯艺术家</span><span>心跳雷达</span><span>温柔谈判官</span><span>深海静音者</span><span>甜梗制造机</span><span>边界诗人</span><span>炽热守望者</span>
+        </div>
       </div>
-      <div class="actions">
-        <button class="btn btn-primary" id="saveBtn">保存结果图</button>
-        <button class="btn btn-ghost" id="shareBtn">分享到朋友圈</button>
+    </section>
+
+    <!-- QUIZ -->
+    <section class="screen" id="quiz">
+      <header class="topbar quiz-topbar">
+        <a class="brand" href="#intro" id="quizBrand">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none"><path d="M16 27S4 20.4 4 12.6C4 8.5 7.2 5.4 11.1 5.4c2.1 0 3.8 1 4.9 2.6 1.1-1.6 2.8-2.6 4.9-2.6C24.8 5.4 28 8.5 28 12.6 28 20.4 16 27 16 27Z" fill="currentColor"/></svg>
+          </span>
+          <span>心动实验室 <i>HEART LAB</i></span>
+        </a>
+        <button class="text-btn" id="quitBtn">退出测试</button>
+      </header>
+
+      <div class="quiz-wrap">
+        <div class="progress-head">
+          <span id="counter">Q 01 / 12</span>
+          <span id="stageName">心动初见</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+        <div class="question-card" id="questionCard">
+          <div class="question-index" id="questionIndex">01</div>
+          <h2 id="questionTitle">题目加载中</h2>
+          <p class="question-hint">选择你最本能、最像自己的反应</p>
+          <div class="options" id="options"></div>
+        </div>
+
+        <div class="quiz-foot">
+          <button class="text-btn" id="backBtn" disabled>← 上一题</button>
+          <span class="key-hint">键盘 1–4 也可以作答</span>
+        </div>
       </div>
-      <button class="retry" id="retryBtn">重新测一次</button>
-    </div>
-  </section>
+    </section>
+
+    <!-- RESULT -->
+    <section class="screen" id="result">
+      <header class="topbar">
+        <a class="brand" href="#intro">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none"><path d="M16 27S4 20.4 4 12.6C4 8.5 7.2 5.4 11.1 5.4c2.1 0 3.8 1 4.9 2.6 1.1-1.6 2.8-2.6 4.9-2.6C24.8 5.4 28 8.5 28 12.6 28 20.4 16 27 16 27Z" fill="currentColor"/></svg>
+          </span>
+          <span>心动实验室 <i>HEART LAB</i></span>
+        </a>
+        <span class="topbar-note">你的恋爱人格报告</span>
+      </header>
+
+      <div class="result-head">
+        <div class="result-intro">
+          <div class="eyebrow"><span class="eyebrow-line"></span> YOUR LOVE ARCHETYPE</div>
+          <h2>找到你的恋爱原型</h2>
+          <p>不是标准答案，只是一面有点漂亮的镜子。</p>
+        </div>
+      </div>
+
+      <div class="result-layout">
+        <div class="result-left">
+          <div class="persona-card" id="shareCard">
+            <div class="persona-top">
+              <span class="persona-code" id="personaCode">AR-01</span>
+              <span class="persona-password" id="personaPassword">人格密码 · 燃白贴锋</span>
+            </div>
+            <div class="persona-title-wrap">
+              <div class="persona-ornament" id="personaOrnament" aria-hidden="true">✦</div>
+              <h3 id="personaName">焰火直球派</h3>
+              <p class="persona-en" id="personaEn">THE FLAME</p>
+            </div>
+            <p class="persona-tagline" id="personaTagline"></p>
+            <div class="persona-tags" id="personaTags"></div>
+            <div class="persona-divider"><span>心动四维</span></div>
+            <div class="dimension-list" id="dimensionList"></div>
+            <div class="persona-quote" id="personaQuote"></div>
+            <div class="persona-bottom">
+              <span id="personaRarity">仅 8.6% 的人和你同类</span>
+              <span class="persona-stamp">HEART LAB · VOL.01</span>
+            </div>
+          </div>
+
+          <div class="share-actions">
+            <button class="btn btn-primary" id="copyBtn">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="M16 8V6.5A2.5 2.5 0 0 0 13.5 4h-7A2.5 2.5 0 0 0 4 6.5v7A2.5 2.5 0 0 0 6.5 16H8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+              <span>复制分享文案</span>
+            </button>
+            <button class="btn btn-ghost" id="saveBtn">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4v11m0 0 4-4m-4 4-4-4M5 19h14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>保存人格海报</span>
+            </button>
+          </div>
+          <p class="share-tip" id="actionTip">适合发小红书、朋友圈、微博；保存海报更适合抖音图文。</p>
+        </div>
+
+        <div class="result-right">
+          <div class="report-block accent-block">
+            <div class="block-kicker">01 · 心动开关</div>
+            <h4>什么会让你突然上头</h4>
+            <p id="signalText"></p>
+          </div>
+          <div class="report-block">
+            <div class="block-kicker">02 · 恋爱高光</div>
+            <h4>你在关系里最迷人的样子</h4>
+            <p id="highlightText"></p>
+          </div>
+          <div class="report-block">
+            <div class="block-kicker">03 · 相处雷区</div>
+            <h4>容易被误解的地方</h4>
+            <p id="trapText"></p>
+          </div>
+          <div class="report-block">
+            <div class="block-kicker">04 · 恋爱咒语</div>
+            <h4>给你的下一句提醒</h4>
+            <p id="prescriptionText"></p>
+          </div>
+          <div class="match-block">
+            <div class="block-kicker">05 · 同频信号</div>
+            <h4>最容易和你产生化学反应的是</h4>
+            <div class="match-name" id="matchName"></div>
+            <p>互补不是要改变彼此，而是有人刚好接住你的节奏。</p>
+          </div>
+          <button class="btn btn-outline" id="retestBtn">重新测一次 ↻</button>
+        </div>
+      </div>
+
+      <section class="gallery">
+        <div class="gallery-head">
+          <div>
+            <div class="eyebrow"><span class="eyebrow-line"></span> THE GALLERY</div>
+            <h3>十二种恋爱原型</h3>
+          </div>
+          <p>每个人格都有自己的心动逻辑。<br />你抽到哪一个？</p>
+        </div>
+        <div class="gallery-grid" id="galleryGrid"></div>
+      </section>
+
+      <footer class="footer">心动实验室 · HEART LAB — 恋爱人格图鉴 VOL.01 <span>测着玩，别太当真；认真爱，是真的。</span></footer>
+    </section>
 
-</div>
+  </main>
 
-<!-- ============ MODAL ============ -->
-<div class="modal" id="modal" role="dialog" aria-modal="true" aria-hidden="true">
-  <div class="modal-mask" data-close="1"></div>
-  <div class="modal-body">
-    <div class="modal-head"><span id="modalTitle">长按图片保存到相册</span><button class="modal-close" data-close="1" aria-label="关闭">×</button></div>
-    <div class="modal-img"><img id="posterImg" alt="城市 CP 结果海报"></div>
-    <button class="btn btn-primary" id="downloadBtn">下载图片</button>
-    <p class="modal-tip" id="modalTip">微信内请长按图片保存，再发朋友圈</p>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
-
-<script>
-(function () {
-  "use strict";
-
-  /* =========================================================
-     1. 配置区 —— 改内容只改这里，不用动下面的业务逻辑
-     ========================================================= */
-
-  var CONFIG = {
-    dimensions: [
-      { key: "fire",   name: "烟火气", desc: "对日常生活的热忱" },
-      { key: "pace",   name: "节奏感", desc: "对时间流速的偏好" },
-      { key: "wander", name: "漫游欲", desc: "对未知街区的胃口" },
-      { key: "chill",  name: "松弛度", desc: "对放空的容忍度" },
-      { key: "order",  name: "秩序感", desc: "对确定性的需求" },
-      { key: "tide",   name: "潮流感", desc: "对新鲜审美的敏感" }
-    ],
-
-    questions: [
-      {
-        text: "周末醒来，发现外面下了一整天的雨。你的第一反应是——",
-        options: [
-          { text: "煮点热的，坐窗边听雨", scores: { fire: 3, chill: 2 } },
-          { text: "把今天该做的事提前做完", scores: { pace: 2, order: 3 } },
-          { text: "撑伞出门，走一条没走过的路", scores: { wander: 3, tide: 1 } },
-          { text: "找家咖啡馆坐一下午，看路人", scores: { chill: 3, tide: 1 } }
-        ]
-      },
-      {
-        text: "到一座陌生城市，放下行李后的第一件事是——",
-        options: [
-          { text: "去最近的菜市场转一圈", scores: { fire: 3, wander: 2 } },
-          { text: "先确认地铁图和回程时间", scores: { order: 3, pace: 2 } },
-          { text: "直奔最热闹的那条街", scores: { tide: 3, pace: 1 } },
-          { text: "沿河边或公园慢慢走", scores: { chill: 3, wander: 1 } }
-        ]
-      },
-      {
-        text: "约朋友吃饭，你最常在群里说的是——",
-        options: [
-          { text: "我知道一家开了二十年的老店", scores: { fire: 3, order: 1 } },
-          { text: "几点？位子我订好了", scores: { order: 3, pace: 2 } },
-          { text: "随便走，看到顺眼就进", scores: { wander: 3, chill: 2 } },
-          { text: "新开那家，听说很好看", scores: { tide: 3, pace: 1 } }
-        ]
-      },
-      {
-        text: "排队四十分钟才轮到你，这四十分钟你在——",
-        options: [
-          { text: "跟旁边的人聊起来了", scores: { fire: 2, chill: 2 } },
-          { text: "反复看时间，算还要多久", scores: { pace: 3, order: 2 } },
-          { text: "已经在搜附近还有什么可去", scores: { wander: 3, tide: 1 } },
-          { text: "戴着耳机，什么也不想", scores: { chill: 3 } }
-        ]
-      },
-      {
-        text: "你的房间，最像下面哪一种——",
-        options: [
-          { text: "有点乱，但东西都在顺手的位置", scores: { fire: 3, chill: 1 } },
-          { text: "分类清楚，标签朝外", scores: { order: 3 } },
-          { text: "常换摆设，看心情", scores: { tide: 3, wander: 1 } },
-          { text: "很少添东西，够用就行", scores: { chill: 3, order: 1 } }
-        ]
-      },
-      {
-        text: "突然多出三天假，你更想——",
-        options: [
-          { text: "去个没去过的小城，随便逛", scores: { wander: 3, fire: 1 } },
-          { text: "待在家，把想做的事一件件做完", scores: { order: 3, chill: 1 } },
-          { text: "去热闹的地方，看展看演出", scores: { tide: 3, pace: 2 } },
-          { text: "找个安静的地方，什么都不安排", scores: { chill: 3 } }
-        ]
-      },
-      {
-        text: "走在街上，你最先注意到的是——",
-        options: [
-          { text: "谁家在做饭，飘出来的味道", scores: { fire: 3 } },
-          { text: "路牌和方向", scores: { order: 3, pace: 1 } },
-          { text: "橱窗和招牌上的字", scores: { tide: 3 } },
-          { text: "树、光，和坐在台阶上的人", scores: { chill: 2, wander: 2 } }
-        ]
-      },
-      {
-        text: "朋友临时说「半小时后到你楼下」，你会——",
-        options: [
-          { text: "收拾一下，泡上茶", scores: { fire: 2, order: 2 } },
-          { text: "有点被打乱，快速重排计划", scores: { pace: 3, order: 2 } },
-          { text: "正好，本来也没安排", scores: { chill: 3 } },
-          { text: "提议换个更有意思的地方见", scores: { wander: 2, tide: 2 } }
-        ]
-      },
-      {
-        text: "你更喜欢哪一种回家的路——",
-        options: [
-          { text: "路过菜场和面包店的那条", scores: { fire: 3, chill: 1 } },
-          { text: "最快最直的那条", scores: { pace: 3, order: 2 } },
-          { text: "每次绕一点，看不同的巷子", scores: { wander: 3, tide: 1 } },
-          { text: "沿河、有树、人少的那条", scores: { chill: 3 } }
-        ]
-      },
-      {
-        text: "深夜睡不着，你通常会——",
-        options: [
-          { text: "起来弄点吃的", scores: { fire: 3, chill: 1 } },
-          { text: "把明天的待办写清楚", scores: { order: 3, pace: 2 } },
-          { text: "出门走一圈，或者骑车", scores: { wander: 3, tide: 1 } },
-          { text: "躺着听歌，直到困", scores: { chill: 3 } }
-        ]
-      },
-      {
-        text: "你心里理想的城市，最重要的是——",
-        options: [
-          { text: "有人情味，买菜时老板记得你", scores: { fire: 3 } },
-          { text: "效率高，什么都能按时运转", scores: { pace: 3, order: 2 } },
-          { text: "有逛不完的新地方", scores: { wander: 3, tide: 2 } },
-          { text: "不吵，能好好喘口气", scores: { chill: 3 } }
-        ]
-      },
-      {
-        text: "翻相册，你拍得最多的其实是——",
-        options: [
-          { text: "一碗刚端上来的面", scores: { fire: 3 } },
-          { text: "时刻表、路牌、整齐的窗格", scores: { order: 3, pace: 1 } },
-          { text: "没见过的转角、陌生的墙", scores: { wander: 3, tide: 2 } },
-          { text: "光落在椅子上的样子", scores: { chill: 3 } }
-        ]
-      }
-    ],
-
-    results: [
-      {
-        code: "CP-01",
-        key: "fire",
-        name: "巷口热汤型",
-        city: "成都",
-        cityTag: "慢火气",
-        trait: "把日子过成一锅慢炖的汤",
-        tags: ["# 人情味捕手", "# 菜场情报员"],
-        read: "你对一座城市的判断标准很朴素：有没有人记得你常点什么。热闹的地方不一定留得住你，但楼下那家开了很多年的小店可以。你收集记忆的方式很具体——一碗汤的温度，老板随口那句「还是老样子」。你不抗拒新鲜，只是比起新奇，你更信那些被时间反复验证过的东西。所以你的城市 CP 多半不急着证明自己，它把好东西藏在日常里，等你慢慢熟。你会在这里过得像一个本地人，而不是一个游客。"
-      },
-      {
-        code: "CP-02",
-        key: "pace",
-        name: "准点出发型",
-        city: "上海",
-        cityTag: "准点与体面",
-        trait: "用准时换回属于自己的时间",
-        tags: ["# 行程强迫症", "# 时间洁癖"],
-        read: "你的时间感很强，甚至有点固执。约几点就是几点，说做完就做完，中间被打断会让你心里发紧。你喜欢的城市必须可靠地运转：车会来，店会开，事情会按流程办完。别人觉得这是紧绷，你知道这是你获得自由的方式——把事情处理干净，剩下的时间才真正属于你。你的城市 CP 和你同频，快的时候不慌，慢的时候也不拖。在这里，你不用解释自己为什么走得那么快。"
-      },
-      {
-        code: "CP-03",
-        key: "wander",
-        name: "折角地图型",
-        city: "重庆",
-        cityTag: "上坡下坎",
-        trait: "相信走错的路也有风景",
-        tags: ["# 巷子探测器", "# 攻略绝缘体"],
-        read: "你的脚比你的计划更聪明。出门时想好要去哪，走到一半被一条巷子拐走，最后到了完全没听说过的地方——这是你最好的一天。你不太吃攻略那一套，喜欢那种「再往前看看」的冲动。你的城市 CP 一定不平坦，它有坡、有拐角、有走错了反而更好的路。你在这里不会腻，因为每次以为自己熟了，它又会翻出新的一层给你。你走得慢，但走得很深。"
-      },
-      {
-        code: "CP-04",
-        key: "chill",
-        name: "长椅晒太阳型",
-        city: "厦门",
-        cityTag: "海风与树荫",
-        trait: "擅长把时间浪费得恰到好处",
-        tags: ["# 长椅常驻", "# 发呆十级"],
-        read: "你最擅长的能力是待着。不是懒，是你知道什么时候该把自己放到一边，什么也不做。你能在同一个位置坐两个小时，看光挪动，看人来人往，脑子里什么也不装。别人管这叫浪费时间，你管这叫充电。你的城市 CP 不吵，它有风、有树荫、有可以什么都不干的下午。在这里你不必一直有用，光是存在着就已经很合适了。"
-      },
-      {
-        code: "CP-05",
-        key: "order",
-        name: "直线路线型",
-        city: "北京",
-        cityTag: "横平竖直",
-        trait: "用秩序腾出看更远的力气",
-        tags: ["# 路线上瘾", "# 备选方案 B"],
-        read: "你心里有一张地图，格子清楚，方向明确。去一个地方之前，路线、时间、备选方案你都想好了。变化不是不能接受，但你希望它提前告知。你把生活整理得有条理，不是因为怕乱，是因为整齐让你有余力去看更远的东西。你的城市 CP 是横平竖直的那种，路好认，方向好辨，走到哪儿都知道自己在城的哪一边。在这里你走得稳，也走得远。"
-      },
-      {
-        code: "CP-06",
-        key: "tide",
-        name: "橱窗驻足型",
-        city: "深圳",
-        cityTag: "常看常新",
-        trait: "靠审美判断世界的人",
-        tags: ["# 橱窗观察员", "# 审美雷达"],
-        read: "你对「好看」有本能的反应。一家店的招牌字体、一件衣服的颜色、一条街的灯，你一眼就知道对不对。你不一定追新，但你确实需要环境给你刺激——旧的东西看久了，你会变钝。你的城市 CP 更新得快，有新的展、新的店、新的说法不停冒出来，让你总有点东西可看。你在这里活得清醒又亢奋，偶尔也累，但真让你停下来，反而更难受。"
-      }
-    ]
-  };
-
-  /* =========================================================
-     2. 工具
-     ========================================================= */
-
-  var DIMS = CONFIG.dimensions;
-  var QS = CONFIG.questions;
-  var TOTAL = QS.length;
-
-  function pad(n) { return String(n).length < 2 ? "0" + n : String(n); }
-  function $(id) { return document.getElementById(id); }
-  // 雷达视觉半径：0 → 0.16，1 → 1，避免低分维度把形状缩成一个点
-  function vr(r) { return 0.16 + 0.84 * r; }
-
-  var state = { i: 0, scores: {}, result: null, ratios: null, locked: false, poster: null };
-
-  var screens = {
-    hero: $("screen-hero"),
-    quiz: $("screen-quiz"),
-    result: $("screen-result")
-  };
-  var screenTimers = [];
-
-  /* =========================================================
-     3. 屏幕切换（淡出 → 淡入）
-     ========================================================= */
-
-  function showScreen(name) {
-    var cur = document.querySelector(".screen.is-active");
-    var next = screens[name];
-    if (!next || cur === next) return;
-
-    // 清掉上一次切换残留的定时器，避免快速点击时两屏同时显示
-    screenTimers.forEach(function (t) { clearTimeout(t); });
-    screenTimers.length = 0;
-
-    if (cur) {
-      cur.classList.add("is-leaving");
-      cur.classList.remove("is-active");
-      screenTimers.push(setTimeout(function () { cur.classList.remove("is-leaving"); }, 300));
-    }
-    screenTimers.push(setTimeout(function () {
-      next.classList.add("is-active");
-      window.scrollTo(0, 0);
-    }, cur ? 300 : 0));
-  }
-
-  /* =========================================================
-     4. 答题
-     ========================================================= */
-
-  function resetState() {
-    state.i = 0;
-    state.locked = false;
-    state.result = null;
-    state.ratios = null;
-    state.poster = null;
-    state.scores = {};
-    DIMS.forEach(function (d) { state.scores[d.key] = 0; });
-  }
-
-  function renderQuestion() {
-    var q = QS[state.i];
-    var card = $("qCard");
-
-    $("qIndex").textContent = pad(state.i + 1) + " / " + pad(TOTAL);
-    $("qBar").style.width = ((state.i + 1) / TOTAL * 100) + "%";
-
-    card.classList.remove("is-out", "is-in");
-    void card.offsetWidth;
-
-    var html = '<p class="q-kicker">Q' + pad(state.i + 1) + '</p>';
-    html += '<h2 class="q-text">' + q.text + "</h2>";
-    html += '<div class="options">';
-    q.options.forEach(function (o, idx) {
-      html += '<button class="opt" data-idx="' + idx + '">' +
-                '<span class="opt-key">' + "ABCD"[idx] + "</span>" +
-                '<span class="opt-label">' + o.text + "</span>" +
-              "</button>";
-    });
-    html += "</div>";
-
-    card.innerHTML = html;
-    card.classList.add("is-in");
-    state.locked = false;
-  }
-
-  function pickOption(idx, btn) {
-    if (state.locked) return;
-    state.locked = true;
-    btn.classList.add("is-picked");
-
-    var opt = QS[state.i].options[idx];
-    Object.keys(opt.scores).forEach(function (k) {
-      state.scores[k] = (state.scores[k] || 0) + opt.scores[k];
-    });
-
-    var card = $("qCard");
-    setTimeout(function () {
-      card.classList.add("is-out");
-      setTimeout(function () {
-        state.i++;
-        if (state.i >= TOTAL) {
-          finish();
-        } else {
-          renderQuestion();
-        }
-      }, 250);
-    }, 210);
-  }
-
-  $("qCard").addEventListener("click", function (e) {
-    var btn = e.target.closest(".opt");
-    if (!btn) return;
-    pickOption(parseInt(btn.getAttribute("data-idx"), 10), btn);
-  });
-
-  /* =========================================================
-     5. 计分 & 结果
-     ========================================================= */
-
-  function computeResult() {
-    var top = DIMS[0];
-    var topVal = -1;
-    DIMS.forEach(function (d) {
-      var v = state.scores[d.key] || 0;
-      if (v > topVal) { topVal = v; top = d; }
-    });
-
-    var found = null;
-    CONFIG.results.forEach(function (r) { if (r.key === top.key) found = r; });
-    if (!found) found = CONFIG.results[0];
-
-    var topScore = state.scores[top.key] || 0;
-    if (topScore <= 0) topScore = 1;
-
-    // 以「最突出的那个维度」为 100，其余按比例换算，保证雷达图形状可读
-    var ratios = DIMS.map(function (d) {
-      var raw = (state.scores[d.key] || 0) / topScore;
-      return raw > 1 ? 1 : raw;
-    });
-
-    state.result = found;
-    state.topKey = top.key;
-    state.ratios = ratios;
-    state.poster = null;
-
-    return { result: found, ratios: ratios, topKey: top.key };
-  }
-
-  function radarSVG(ratios) {
-    var cx = 160, cy = 158, R = 96, n = DIMS.length;
-    var ang = function (i) { return -Math.PI / 2 + i * 2 * Math.PI / n; };
-    var pt = function (i, r) { return [cx + Math.cos(ang(i)) * r, cy + Math.sin(ang(i)) * r]; };
-
-    var rings = "", axes = "", labels = "", dots = "";
-
-    [0.34, 0.67, 1].forEach(function (k) {
-      var pts = DIMS.map(function (_, i) { return pt(i, R * k).join(","); }).join(" ");
-      rings += '<polygon class="grid" points="' + pts + '"/>';
-    });
-
-    DIMS.forEach(function (_, i) {
-      var p = pt(i, R);
-      axes += '<line class="axis" x1="' + cx + '" y1="' + cy + '" x2="' + p[0].toFixed(1) + '" y2="' + p[1].toFixed(1) + '"/>';
-    });
-
-    var shape = ratios.map(function (r, i) { return pt(i, R * vr(r)).join(","); }).join(" ");
-
-    DIMS.forEach(function (d, i) {
-      var a = ang(i), c = Math.cos(a), s = Math.sin(a);
-      var lp = pt(i, R + 26);
-      var anchor = Math.abs(c) < 0.25 ? "middle" : (c > 0 ? "start" : "end");
-      var dy = s > 0.5 ? 9 : (s < -0.5 ? -3 : 4);
-      labels += '<text class="dlab" x="' + lp[0].toFixed(1) + '" y="' + (lp[1] + dy).toFixed(1) +
-                '" text-anchor="' + anchor + '">' + d.name + "</text>";
-      var dp = pt(i, R * vr(ratios[i]));
-      dots += '<circle class="dot" cx="' + dp[0].toFixed(1) + '" cy="' + dp[1].toFixed(1) + '" r="3.2"/>';
-    });
-
-    return '<svg viewBox="0 0 320 316" role="img" aria-label="六维度得分雷达图">' +
-             rings + axes +
-             '<polygon class="shape" points="' + shape + '"/>' +
-             dots + labels +
-           "</svg>";
-  }
-
-  function renderResult() {
-    var r = state.result;
-
-    var dimsHtml = "";
-    DIMS.forEach(function (d, i) {
-      var val = Math.round(state.ratios[i] * 100);
-      dimsHtml += '<div class="dim' + (d.key === state.topKey ? " is-top" : "") + '">' +
-                    '<span class="dim-name">' + d.name + "</span>" +
-                    '<span class="dim-bar"><i data-w="' + val + '"></i></span>' +
-                    '<span class="dim-val">' + val + "</span>" +
-                  "</div>";
-    });
-
-    $("rCard").innerHTML =
-      '<div class="r-stamp">城市 CP 图鉴</div>' +
-      '<div class="r-lbl">PERSONALITY NO.</div>' +
-      '<div class="r-code">' + r.code + "</div>" +
-      '<h2 class="r-name">' + r.name + "</h2>" +
-      '<p class="r-trait">' + r.trait + "</p>" +
-      '<div class="r-tags">' + r.tags.map(function (t) { return "<span>" + t + "</span>"; }).join("") + "</div>" +
-      '<div class="radar">' + radarSVG(state.ratios) + "</div>" +
-      '<div class="dims">' + dimsHtml + "</div>" +
-      '<div class="r-city"><span class="lbl">MATCHED</span><strong>' + r.city + "</strong>" +
-        '<span class="ct">' + r.cityTag + "</span></div>";
-
-    $("rRead").textContent = r.read;
-
-    // 进度条生长动画
-    requestAnimationFrame(function () {
-      setTimeout(function () {
-        var bars = $("rCard").querySelectorAll(".dim-bar i");
-        for (var i = 0; i < bars.length; i++) {
-          bars[i].style.width = bars[i].getAttribute("data-w") + "%";
-        }
-      }, 120);
-    });
-  }
-
-  function finish() {
-    computeResult();
-    renderResult();
-    showScreen("result");
-  }
-
-  /* =========================================================
-     6. 生成结果海报（Canvas 手绘，无第三方库）
-     ========================================================= */
-
-  function roundRect(g, x, y, w, h, r) {
-    g.beginPath();
-    g.moveTo(x + r, y);
-    g.lineTo(x + w - r, y);
-    g.arcTo(x + w, y, x + w, y + r, r);
-    g.lineTo(x + w, y + h - r);
-    g.arcTo(x + w, y + h, x + w - r, y + h, r);
-    g.lineTo(x + r, y + h);
-    g.arcTo(x, y + h, x, y + h - r, r);
-    g.lineTo(x, y + r);
-    g.arcTo(x, y, x + r, y, r);
-    g.closePath();
-  }
-
-  function buildPoster() {
-    var r = state.result, ratios = state.ratios;
-    var W = 1080, H = 1500;
-    var cv = document.createElement("canvas");
-    cv.width = W; cv.height = H;
-    var g = cv.getContext("2d");
-
-    var SERIF = '"Songti SC","STSong","Noto Serif SC","Source Han Serif SC",Georgia,serif';
-    var SANS = '-apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
-    var INK = "#232019", MUT = "#6B6459", ACC = "#C25C3A";
-    var LINE = "rgba(35,32,25,0.16)";
-
-    // 底
-    g.fillStyle = "#F6F2E9";
-    g.fillRect(0, 0, W, H);
-
-    // 双线边框
-    g.strokeStyle = "rgba(35,32,25,0.22)"; g.lineWidth = 2;
-    g.strokeRect(46, 46, W - 92, H - 92);
-    g.strokeStyle = "rgba(35,32,25,0.09)"; g.lineWidth = 1;
-    g.strokeRect(62, 62, W - 124, H - 124);
-
-    // 页眉
-    g.textBaseline = "alphabetic";
-    g.fillStyle = MUT;
-    g.font = "500 22px " + SANS;
-    g.textAlign = "left";
-    g.fillText("CITY  CP  INDEX", 96, 140);
-    g.textAlign = "right";
-    g.fillText("NO. 001", W - 96, 140);
-
-    g.strokeStyle = LINE; g.lineWidth = 1;
-    g.beginPath(); g.moveTo(96, 176); g.lineTo(W - 96, 176); g.stroke();
-
-    // 强调小色块 + 编号标签
-    g.fillStyle = ACC;
-    g.fillRect(96, 200, 42, 4);
-
-    g.fillStyle = MUT;
-    g.font = "500 20px " + SANS;
-    g.textAlign = "left";
-    g.fillText("P E R S O N A L I T Y   N O .", 96, 244);
-
-    // 编号
-    g.fillStyle = INK;
-    g.font = "700 94px " + SERIF;
-    g.fillText(r.code, 96, 342);
-
-    // 人格名
-    g.font = "600 56px " + SERIF;
-    g.fillText(r.name, 96, 424);
-
-    // 核心特质
-    g.fillStyle = MUT;
-    g.font = "400 28px " + SANS;
-    g.fillText(r.trait, 96, 476);
-
-    // 标签
-    g.font = "500 28px " + SANS;
-    var tx = 96, ty = 500;
-    r.tags.forEach(function (t) {
-      var w = g.measureText(t).width + 48;
-      roundRect(g, tx, ty, w, 62, 31);
-      g.fillStyle = "rgba(194,92,58,0.10)";
-      g.fill();
-      g.fillStyle = ACC;
-      g.textAlign = "center";
-      g.fillText(t, tx + w / 2, ty + 41);
-      tx += w + 16;
-    });
-
-    // 雷达图
-    var cx = 540, cy = 830, R = 185, n = DIMS.length;
-    var ang = function (i) { return -Math.PI / 2 + i * 2 * Math.PI / n; };
-    var pt = function (i, rr) { return [cx + Math.cos(ang(i)) * rr, cy + Math.sin(ang(i)) * rr]; };
-
-    g.strokeStyle = "rgba(35,32,25,0.13)"; g.lineWidth = 1.5;
-    [0.34, 0.67, 1].forEach(function (k) {
-      g.beginPath();
-      for (var i = 0; i < n; i++) {
-        var p = pt(i, R * k);
-        if (i === 0) g.moveTo(p[0], p[1]); else g.lineTo(p[0], p[1]);
-      }
-      g.closePath();
-      g.stroke();
-    });
-
-    g.strokeStyle = "rgba(35,32,25,0.09)"; g.lineWidth = 1;
-    for (var i = 0; i < n; i++) {
-      var pa = pt(i, R);
-      g.beginPath(); g.moveTo(cx, cy); g.lineTo(pa[0], pa[1]); g.stroke();
-    }
-
-    g.beginPath();
-    ratios.forEach(function (v, i) {
-      var p = pt(i, R * vr(v));
-      if (i === 0) g.moveTo(p[0], p[1]); else g.lineTo(p[0], p[1]);
-    });
-    g.closePath();
-    g.fillStyle = "rgba(194,92,58,0.15)";
-    g.fill();
-    g.strokeStyle = ACC; g.lineWidth = 3; g.stroke();
-
-    ratios.forEach(function (v, i) {
-      var p = pt(i, R * vr(v));
-      g.beginPath();
-      g.arc(p[0], p[1], 6, 0, Math.PI * 2);
-      g.fillStyle = ACC;
-      g.fill();
-    });
-
-    g.font = "500 26px " + SANS;
-    g.fillStyle = MUT;
-    DIMS.forEach(function (d, i) {
-      var a = ang(i), c = Math.cos(a), s = Math.sin(a);
-      var lp = pt(i, R + 54);
-      g.textAlign = Math.abs(c) < 0.25 ? "center" : (c > 0 ? "left" : "right");
-      var dy = s > 0.5 ? 10 : (s < -0.5 ? -4 : 8);
-      g.fillText(d.name, lp[0], lp[1] + dy);
-    });
-
-    // 六维分数
-    var startX = 96, step = 148;
-    DIMS.forEach(function (d, i) {
-      var bx = startX + step * i + step / 2;
-      g.textAlign = "center";
-      g.fillStyle = MUT;
-      g.font = "400 26px " + SANS;
-      g.fillText(d.name, bx, 1140);
-      g.fillStyle = INK;
-      g.font = "600 40px " + SERIF;
-      g.fillText(String(Math.round(ratios[i] * 100)), bx, 1190);
-    });
-
-    // 分隔线
-    g.strokeStyle = LINE;
-    g.beginPath(); g.moveTo(96, 1240); g.lineTo(W - 96, 1240); g.stroke();
-
-    // 匹配城市
-    g.textAlign = "left";
-    g.fillStyle = MUT;
-    g.font = "500 20px " + SANS;
-    g.fillText("M A T C H E D   C I T Y", 96, 1290);
-
-    g.fillStyle = INK;
-    g.font = "600 52px " + SERIF;
-    var cityW = g.measureText(r.city).width;
-    g.fillText(r.city, 96, 1356);
-
-    g.fillStyle = "#8C9B84";
-    g.font = "400 24px " + SANS;
-    g.fillText(r.cityTag, 96 + cityW + 22, 1352);
-
-    // 页脚
-    g.fillStyle = "rgba(107,100,89,0.9)";
-    g.font = "400 24px " + SANS;
-    g.fillText("12 道直觉题 · 6 个维度 · 免费出结果", 96, 1420);
-
-    var d = new Date();
-    g.textAlign = "right";
-    g.fillText(d.getFullYear() + "." + pad(d.getMonth() + 1) + "." + pad(d.getDate()), W - 96, 1420);
-
-    return cv.toDataURL("image/png");
-  }
-
-  /* =========================================================
-     7. 保存 / 分享
-     ========================================================= */
-
-  function openPoster(title, tip) {
-    if (!state.poster) state.poster = buildPoster();
-    $("posterImg").src = state.poster;
-    $("modalTitle").textContent = title;
-    $("modalTip").textContent = tip;
-    $("modal").classList.add("is-open");
-    $("modal").setAttribute("aria-hidden", "false");
-    document.body.classList.add("no-scroll");
-  }
-
-  function closeModal() {
-    $("modal").classList.remove("is-open");
-    $("modal").setAttribute("aria-hidden", "true");
-    document.body.classList.remove("no-scroll");
-  }
-
-  var toastTimer = null;
-  function toast(msg) {
-    var el = $("toast");
-    el.textContent = msg;
-    el.classList.add("is-on");
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(function () { el.classList.remove("is-on"); }, 2000);
-  }
-
-  function fallbackCopy(text) {
-    var ta = document.createElement("textarea");
-    ta.value = text;
-    ta.setAttribute("readonly", "");
-    ta.style.position = "fixed";
-    ta.style.top = "-1000px";
-    document.body.appendChild(ta);
-    ta.select();
-    try { document.execCommand("copy"); } catch (e) {}
-    document.body.removeChild(ta);
-  }
-
-  function copyText(text) {
-    if (navigator.clipboard && window.isSecureContext) {
-      navigator.clipboard.writeText(text).catch(function () { fallbackCopy(text); });
-    } else {
-      fallbackCopy(text);
-    }
-  }
-
-  /* =========================================================
-     8. 事件绑定
-     ========================================================= */
-
-  $("startBtn").addEventListener("click", function () {
-    resetState();
-    renderQuestion();
-    showScreen("quiz");
-  });
-
-  $("retryBtn").addEventListener("click", function () {
-    resetState();
-    renderQuestion();
-    showScreen("quiz");
-  });
-
-  $("saveBtn").addEventListener("click", function () {
-    openPoster("长按图片保存到相册", "iPhone 长按图片「存储到照片」，安卓长按「保存图片」");
-  });
-
-  $("shareBtn").addEventListener("click", function () {
-    var r = state.result;
-    var text = "我的城市 CP 属性是 " + r.code + " " + r.name + "——" + r.trait +
-               "。城市 CP 匹配：" + r.city + "（" + r.cityTag + "）。你呢？";
-    copyText(text);
-    openPoster("存图后发朋友圈", "长按图片保存，文案已复制，去微信粘贴即可");
-  });
-
-  $("downloadBtn").addEventListener("click", function () {
-    if (!state.poster) state.poster = buildPoster();
-    var a = document.createElement("a");
-    a.href = state.poster;
-    a.download = "city-cp-" + state.result.code + ".png";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    toast("已保存到下载目录");
-  });
-
-  $("modal").addEventListener("click", function (e) {
-    if (e.target.hasAttribute("data-close")) closeModal();
-  });
-
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") closeModal();
-  });
-
-})();
-</script>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </body>
 </html>
